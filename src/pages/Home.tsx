@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom'
-import { firebase, auth } from '../services/firebase'
+import { useAuth } from '../hooks/useAuth'
+
 
 import ilustrationImg from '../assets/images/illustration.svg'
 import logoImg from '../assets/images/logo.svg'
@@ -12,13 +13,12 @@ import '../styles/auth.scss'
 
 export function Home() {
   const Navigate = useNavigate()
+  const { user, singInWithGoogle } = useAuth()
 
-  function handleCreateRoom() {
-    const provider = new firebase.auth.GoogleAuthProvider()
-
-    auth.signInWithPopup(provider).then(result => {
-      console.log(result)
-    })
+  async function handleCreateRoom() {
+    if (!user) {
+      await singInWithGoogle()
+    }
 
     Navigate("./rooms/new")
   }
