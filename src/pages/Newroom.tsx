@@ -8,10 +8,12 @@ import logoImg from '../assets/images/logo.svg';
 
 import '../styles/auth.scss';
 import { Button } from '../components/Button';
+import { useNavigate } from "react-router-dom";
 
 export function NewRoom() {
   const { user } = useAuth()
   const [newRoom, setNewRooom] = useState("")
+  const Navigate = useNavigate();
 
   async function handleCreateRoom(event: FormEvent) {
     event.preventDefault();
@@ -28,6 +30,8 @@ export function NewRoom() {
       authorId: user?.id,
 
     })
+
+    Navigate(`/rooms/${firebaseRoom.key}`);
   };
 
   return (
